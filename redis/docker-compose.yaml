@@ -1,0 +1,73 @@
+version: "3.8"
+services:
+  master:
+    environment:
+      NODE_TYPE: REDIS_MASTER
+    image: redis:alpine
+    container_name: master
+  slave:
+    environment:
+      NODE_TYPE: REDIS_SLAVE
+    image: redis:alpine
+    command: redis-server --replicaof master 6379
+    depends_on:
+      - master
+  sentinel:
+    environment:
+      NODE_TYPE: REDIS_SENTINEL
+    image: datalabauth/redis-sentinel
+    command: redis-server /sentinel.conf --sentinel
+    depends_on:
+      - master
+      - slave
+x-fogify:
+  networks:
+  - downlink:
+      bandwidth: 5Mbps
+      latency:
+        delay: 50ms
+    name: internet
+    uplink:
+      bandwidth: 10Mbps
+      drop: 0.1%
+      latency:
+        delay: 50ms
+  nodes:
+  - capabilities:
+      memory: 2G
+      processor:
+        clock_speed: 1400
+        cores: 2
+    name: redis-master-node
+  - capabilities:
+      memory: 2G
+      processor:
+        clock_speed: 1400
+        cores: 2
+    name: redis-slave-node
+  - capabilities:
+      memory: 0.5G
+      processor:
+        clock_speed: 700
+        cores: 1
+    name: redis-sentinel-node
+  topology:
+  - label: master
+    networks:
+    - internet
+    node: redis-master-node
+    replicas: 1
+    service: master
+  - label: slave
+    networks:
+    - internet
+    node: redis-slave-node
+    replicas: 3
+    service: slave
+  - label: sentinel
+    networks:
+    - internet
+    node: redis-sentinel-node
+    replicas: 3
+    service: sentinel
+
