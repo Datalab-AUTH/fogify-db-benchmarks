@@ -1,2 +1,3 @@
 .ipynb_checkpoints
 output/*.out
+redis-cluster/fogify-setup.yaml
