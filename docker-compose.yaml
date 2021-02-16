@@ -11,6 +11,14 @@ services:
     ports:
       - 8888:8888
     environment:
+      - "REPLICATION=${REPLICATION}"
+      - "NODES=${NODES}"
+      - "REPLICAS=${REPLICAS}"
+      - "BANDWIDTH=${BANDWIDTH}"
+      - "NETWORK_DELAY=${NETWORK_DELAY}"
+      - "YCSB_OPERATION_COUNT=${YCSB_OPERATION_COUNT}"
+      - "YCSB_RECORD_COUNT=${YCSB_RECORD_COUNT}"
+      - "YCSB_THREAD_COUNT=${YCSB_THREAD_COUNT}"
       - "JUPYTER_ENABLE_LAB=yes"
       - "GRANT_SUDO=yes"
     user: root
