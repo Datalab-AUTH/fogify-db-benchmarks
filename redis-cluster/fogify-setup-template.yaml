@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  ycsb:
+    image: ycsb
+    command: /sleep.sh
+  node:
+    image: datalabauth/redis-cluster
+    command: redis-server /cluster.conf
+    cap_add:
+        - NET_ADMIN
+x-fogify:
+  networks:
+  - bidirectional:
+      bandwidth: __BANDWIDTH__
+      latency:
+          delay: __NETWORK_DELAY__
+    name: mynet
+  nodes:
+  - capabilities:
+      memory: 2G
+      processor:
+        clock_speed: 500
+        cores: 1
+    name: ycsb-node
+  - capabilities:
+      memory: 1G
+      processor:
+        clock_speed: 500
+        cores: 1
+    name: redis-node
+  topology:
+  - label: ycsb
+    networks:
+    - mynet
+    node: ycsb-node
+    replicas: 1
+    service: ycsb
+  - label: node
+    networks:
+    - mynet
+    node: redis-node
+    replicas: __REPLICAS__
+    service: node
+
