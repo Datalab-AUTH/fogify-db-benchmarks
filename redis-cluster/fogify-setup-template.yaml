@@ -17,15 +17,15 @@ x-fogify:
     name: mynet
   nodes:
   - capabilities:
-      memory: 2G
+      memory: 0.1G
       processor:
-        clock_speed: 500
+        clock_speed: 5
         cores: 1
     name: ycsb-node
   - capabilities:
-      memory: 1G
+      memory: 0.1G
       processor:
-        clock_speed: 500
+        clock_speed: 5
         cores: 1
     name: redis-node
   topology:
