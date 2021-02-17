@@ -47,6 +47,9 @@ for REPLICATION in `seq $REPLICATIONS`; do
                     export YCSB_OPERATION_COUNT
                     for YCSB_RECORD_COUNT in $YCSB_RECORD_COUNT_LIST; do
                         export YCSB_RECORD_COUNT
+                        if [ -f STOP ]; then
+                            exit 2
+                        fi
                         run_test
                     done
                 done
