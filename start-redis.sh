@@ -19,7 +19,7 @@ run_test() {
     echo "*********************"
     echo "*** TEST SETTINGS ***"
     echo "*********************"
-    echo "Replications: $REPLICATIONS"
+    echo "Replication: $REPLICATION/$REPLICATIONS"
     echo "Number of nodes: $NODES"
     echo "Number of replicas: $REPLICAS"
     echo "Network bandwidth: $BANDWIDTH"
@@ -28,27 +28,27 @@ run_test() {
     echo "YCSB recordcount: $YCSB_RECORD_COUNT"
     echo "YCSB threadcount: $YCSB_THREAD_COUNT"
 
-    for REPLICATION in `seq $REPLICATIONS`; do
-        export REPLICATION
-        docker-compose up --detach
-        docker exec -t fogify-db-benchmarks_ui_1 \
-            python3 /home/jovyan/work/redis-cluster/run.py
-        docker-compose down
-        sleep 10 # give some time for the containers to actually go down
-    done
+    docker-compose up --detach
+    docker exec -t fogify-db-benchmarks_ui_1 \
+        python3 /home/jovyan/work/redis-cluster/run.py
+    docker-compose down
+    sleep 10 # give some time for the containers to actually go down
 }
 
-for NODES in $NODES_LIST; do
-    export NODES
-    for BANDWIDTH in $BANDWIDTH_LIST; do
-        export BANDWIDTH
-        for NETWORK_DELAY in $NETWORK_DELAY_LIST; do
-            export NETWORK_DELAY
-            for YCSB_OPERATION_COUNT in $YCSB_OPERATION_COUNT_LIST; do
-                export YCSB_OPERATION_COUNT
-                for YCSB_RECORD_COUNT in $YCSB_RECORD_COUNT_LIST; do
-                    export YCSB_RECORD_COUNT
-                    run_test
+for REPLICATION in `seq $REPLICATIONS`; do
+    export REPLICATION
+    for NODES in $NODES_LIST; do
+        export NODES
+        for BANDWIDTH in $BANDWIDTH_LIST; do
+            export BANDWIDTH
+            for NETWORK_DELAY in $NETWORK_DELAY_LIST; do
+                export NETWORK_DELAY
+                for YCSB_OPERATION_COUNT in $YCSB_OPERATION_COUNT_LIST; do
+                    export YCSB_OPERATION_COUNT
+                    for YCSB_RECORD_COUNT in $YCSB_RECORD_COUNT_LIST; do
+                        export YCSB_RECORD_COUNT
+                        run_test
+                    done
                 done
             done
         done
