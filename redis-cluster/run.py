@@ -95,7 +95,12 @@ try:
     fogify = FogifySDK("http://controller:5000", "fogify-setup.yaml")
     res = fogify.deploy()
     print(res)
-    time.sleep(2 * settings['nodes']) # allow for 2 sec/node to spin up
+    # allow for 2 sec/node to spin up, but no more that 2 mins. It should be
+    # enough, even for 100 nodes
+    wait_time = 2 * settings['nodes']
+    if wait_time > 120:
+        wait_time = 120
+    time.sleep(wait_time)
     info = fogify.info()
     ycsb_container_id = info['fogify_ycsb'][0]['Status']['ContainerStatus']['ContainerID']
     ycsb_container_ip = info["fogify_ycsb"][0]['NetworksAttachments'][0]['Addresses'][0].rpartition('/')[0]
@@ -106,7 +111,12 @@ try:
         container_ip.append(ip)
     check_containers(ycsb_container_ip, container_ip)
     redis_cluster_create(container_ip)
-    time.sleep(3 * settings['nodes']) # allow for 3 sec/node to connect
+    # similarly, allow for 3 sec/node to connect, but 2 mins should be enough
+    # in any case
+    wait_time = 3 * settings['nodes']
+    if wait_time > 120:
+        wait_time = 120
+    time.sleep(wait_time)
     redis_ycsb_run(ycsb_container_id, container_ip[0])
 finally:
     try:
