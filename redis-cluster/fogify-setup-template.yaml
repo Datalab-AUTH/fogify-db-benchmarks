@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   ycsb:
-    image: ycsb
+    image: datalabauth/docker-ycsb
     command: /sleep.sh
   node:
     image: datalabauth/redis-cluster
