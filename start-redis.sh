@@ -32,7 +32,7 @@ run_test() {
     docker exec -t fogify-db-benchmarks_ui_1 \
         python3 /home/jovyan/work/redis-cluster/run.py
     docker-compose down
-    sleep 10 # give some time for the containers to actually go down
+    sleep 20 # give some time for the containers to actually go down
 }
 
 for REPLICATION in `seq $REPLICATIONS`; do
