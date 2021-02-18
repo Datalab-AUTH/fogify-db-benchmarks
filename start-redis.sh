@@ -32,7 +32,7 @@ run_test() {
     docker exec -t fogify-db-benchmarks_ui_1 \
         python3 /home/jovyan/work/redis-cluster/run.py
     docker-compose down
-    sleep 20 # give some time for the containers to actually go down
+    sleep 30 # give some time for the containers to actually go down
 }
 
 for REPLICATION in `seq $REPLICATIONS`; do
@@ -47,6 +47,9 @@ for REPLICATION in `seq $REPLICATIONS`; do
                     export YCSB_OPERATION_COUNT
                     for YCSB_RECORD_COUNT in $YCSB_RECORD_COUNT_LIST; do
                         export YCSB_RECORD_COUNT
+                        # if a file named STOP is present, bail out of doing
+                        # the rest of the tests. Useful when fogify starts
+                        # missbehaving.
                         if [ -f STOP ]; then
                             exit 2
                         fi
