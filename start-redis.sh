@@ -53,7 +53,16 @@ for REPLICATION in `seq $REPLICATIONS`; do
                         if [ -f STOP ]; then
                             exit 2
                         fi
-                        run_test
+                        # only run test if it hasn't run yet
+                        combination=$NODES-$REPLICAS-$BANDWIDTH
+                        combination=$combination-$NETWORK_DELAY
+                        combination=$combination-$YCSB_OPERATION_COUNT
+                        combination=$combination-$YCSB_RECORD_COUNT
+                        combination=$combination-$YCSB_THREAD_COUNT
+                        combination=$combination-run-$REPLICATION.out
+                        if [ ! -f output/redis-f-$combination ]; then
+                            run_test
+                        fi
                     done
                 done
             done
