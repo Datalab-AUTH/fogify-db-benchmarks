@@ -59,8 +59,10 @@ for REPLICATION in `seq $REPLICATIONS`; do
                         combination=$combination-$YCSB_OPERATION_COUNT
                         combination=$combination-$YCSB_RECORD_COUNT
                         combination=$combination-$YCSB_THREAD_COUNT
-                        combination=$combination-run-$REPLICATION.out
-                        if [ ! -f output/redis-f-$combination ]; then
+                        combination=$combination-run-$REPLICATION
+                        if [ -f output/redis-f-$combination.out ]; then
+                            echo "*** $combination already there. Skipping. ***"
+                        else
                             run_test
                         fi
                     done
