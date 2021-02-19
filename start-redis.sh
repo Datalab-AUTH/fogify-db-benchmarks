@@ -63,7 +63,11 @@ for REPLICATION in `seq $REPLICATIONS`; do
                         if [ -f output/redis-f-$combination.out ]; then
                             echo "*** $combination already there. Skipping. ***"
                         else
-                            run_test
+                            if [ -n $SIMULATE ]; then
+                                echo "*** $combination will be run ***"
+                            else
+                                run_test
+                            fi
                         fi
                     done
                 done
