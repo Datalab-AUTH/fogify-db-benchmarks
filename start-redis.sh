@@ -1,6 +1,8 @@
 #!/bin/bash
 # vim:et:sta:sts=4:sw=4:ts=8:tw=79:
 
+OPT=$1
+
 export REPLICATIONS=${REPLICATIONS:-1}
 export REPLICAS=${REPLICAS:-1}
 export YCSB_THREAD_COUNT=${YCSB_THREAD_COUNT:-4}
@@ -63,7 +65,7 @@ for REPLICATION in `seq $REPLICATIONS`; do
                         if [ -f output/redis-f-$combination.out ]; then
                             echo "*** $combination already there. Skipping. ***"
                         else
-                            if [ -n $SIMULATE ]; then
+                            if [[ $OPT == "-s" ]]; then
                                 echo "*** $combination will be run ***"
                             else
                                 run_test
