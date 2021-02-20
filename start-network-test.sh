@@ -13,6 +13,12 @@ export MANAGER_IP=172.17.0.1
 export HOST_IP=172.17.0.1 
 
 run_test() {
+    echo "*********************"
+    echo "*** TEST SETTINGS ***"
+    echo "*********************"
+    echo "Number of nodes: $NODES"
+    echo "Network bandwidth: $BANDWIDTH"
+    echo "Network delay: $NETWORK_DELAY"
     docker-compose up --detach
     docker exec -t fogify-db-benchmarks_ui_1 \
         python3 /home/jovyan/work/test-fogify-network/run.py
