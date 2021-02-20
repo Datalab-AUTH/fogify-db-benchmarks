@@ -27,15 +27,6 @@ def check_containers(container_ip):
         else:
             raise Exception(f"DB container (IP: {ip}) is not running.")
 
-def install_iperf3(container_id, container_ip):
-    for cid in container_id:
-        cmd = f"sudo docker exec {cid} apk update"
-        p = subprocess.getstatusoutput(cmd)
-        print(p[1])
-        cmd = f"sudo docker exec {cid} apk add iperf3"
-        p = subprocess.getstatusoutput(cmd)
-        print(p[1])
-
 def iperf3_run(container_id, container_ip):
     iperf_processes = []
     for i in range(len(container_ip)):
@@ -94,8 +85,6 @@ try:
         container_id.append(cid)
         container_ip.append(cip)
     check_containers(container_ip)
-    install_iperf3(container_id, container_ip)
-    time.sleep(5)
     iperf3_run(container_id, container_ip)
     time.sleep(120)
 finally:
