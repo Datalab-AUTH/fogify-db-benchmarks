@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   node:
-    image: alpine:latest
+    image: datalabauth/alpine-tc:latest
     command: sh -c "while true; do sleep 10; done"
     cap_add:
         - NET_ADMIN
