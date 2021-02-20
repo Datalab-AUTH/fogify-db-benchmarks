@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  node:
+    image: alpine:latest
+    command: sh -c "while true; do sleep 10; done"
+    cap_add:
+        - NET_ADMIN
+x-fogify:
+  networks:
+  - bidirectional:
+      bandwidth: __BANDWIDTH__
+      latency:
+          delay: __NETWORK_DELAY__
+    name: mynet
+  nodes:
+  - capabilities:
+      memory: 0.1G
+      processor:
+        clock_speed: 5
+        cores: 1
+    name: alpine-node
+  topology:
+  - label: node
+    networks:
+    - mynet
+    node: alpine-node
+    replicas: __REPLICAS__
+    service: node
+
