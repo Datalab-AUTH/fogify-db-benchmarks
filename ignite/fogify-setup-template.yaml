@@ -1,0 +1,43 @@
+version: "3.8"
+services:
+  ycsb:
+    image: datalabauth/docker-ycsb
+    command: /sleep.sh
+  node:
+    image: datalabauth/docker-ignite
+    cap_add:
+        - NET_ADMIN
+x-fogify:
+  networks:
+  - bidirectional:
+      bandwidth: __BANDWIDTH__
+      latency:
+          delay: __NETWORK_DELAY__
+    name: mynet
+  nodes:
+  - capabilities:
+      memory: 0.1G
+      processor:
+        clock_speed: 5
+        cores: 1
+    name: ycsb-node
+  - capabilities:
+      memory: 0.1G
+      processor:
+        clock_speed: 5
+        cores: 1
+    name: ignite-node
+  topology:
+  - label: ycsb
+    networks:
+    - mynet
+    node: ycsb-node
+    replicas: 1
+    service: ycsb
+  - label: node
+    networks:
+    - mynet
+    node: ignite-node
+    replicas: __REPLICAS__
+    service: node
+

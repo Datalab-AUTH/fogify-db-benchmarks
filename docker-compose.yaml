@@ -12,6 +12,7 @@ services:
       - 8888:8888
     environment:
       - "REPLICATION=${REPLICATION}"
+      - "VARIANT=${VARIANT}"
       - "NODES=${NODES}"
       - "REPLICAS=${REPLICAS}"
       - "BANDWIDTH=${BANDWIDTH}"
