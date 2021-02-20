@@ -1,6 +1,8 @@
 #!/bin/bash
 # vim:et:sta:sts=4:sw=4:ts=8:tw=79:
 
+OPT=$1
+
 export NODES_LIST=${NODES_LIST:-"2 4 6 8 10"}
 export BANDWIDTH_LIST=${BANDWIDTH_LIST:-"100Mbps 1000Mbps 10000Mbps"}
 export NETWORK_DELAY_LIST=${NETWORK_DELAY_LIST:-"3ms 30ms 60ms"}
