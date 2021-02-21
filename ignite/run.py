@@ -51,7 +51,7 @@ def ignite_cluster_create(container_id, container_ip):
         run_cmd = f"sudo docker exec {cid}"
         run_cmd += f" ./run.sh"
         subprocess.Popen(run_cmd.split(' '))
-        time.sleep(5 * 60) # wait for ignite to load before starting another instance
+        time.sleep(30) # wait for ignite to load before starting another instance
 
 def ignite_ycsb_run(ycsb_id, host_ip):
     for workload in ['a', 'b', 'c', 'd', 'e', 'f']:
