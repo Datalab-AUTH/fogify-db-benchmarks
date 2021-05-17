@@ -12,3 +12,11 @@ x-fogify:
         clock_speed: 5
         cores: 1
     name: alpine-node
+  topology:
+  - label: node
+    networks:
+    - mynet
+    node: alpine-node
+    replicas: 1
+    service: node
+
