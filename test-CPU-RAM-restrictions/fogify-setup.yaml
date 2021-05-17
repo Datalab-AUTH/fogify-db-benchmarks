@@ -5,6 +5,12 @@ services:
     cap_add:
         - NET_ADMIN
 x-fogify:
+  networks:
+  - bidirectional:
+      bandwidth: 1000Mbps
+      latency:
+          delay: 1ms
+    name: mynet
   nodes:
   - capabilities:
       memory: 0.1G
