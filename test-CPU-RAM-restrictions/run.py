@@ -33,11 +33,10 @@ try:
     info = fogify.info()
     container_id = []
     container_ip = []
-    for i in range(settings['nodes']):
-        cid = info['fogify_node'][i]['Status']['ContainerStatus']['ContainerID']
-        cip = info["fogify_node"][i]['NetworksAttachments'][0]['Addresses'][0].rpartition('/')[0]
-        container_id.append(cid)
-        container_ip.append(cip)
+    cid = info['fogify_node'][0]['Status']['ContainerStatus']['ContainerID']
+    cip = info["fogify_node"][0]['NetworksAttachments'][0]['Addresses'][0].rpartition('/')[0]
+    container_id.append(cid)
+    container_ip.append(cip)
     check_containers(container_ip)
     time.sleep(30)
 finally:
