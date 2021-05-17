@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  node:
+    image: stress
+    cap_add:
+        - NET_ADMIN
+x-fogify:
+  nodes:
+  - capabilities:
+      memory: 0.1G
+      processor:
+        clock_speed: 5
+        cores: 1
+    name: alpine-node
