@@ -28,11 +28,7 @@ try:
             "/home/jovyan/work/test-CPU-RAM-restrictions/fogify-setup.yaml")
     res = fogify.deploy()
     print(res)
-    # allow for 2 sec/node to spin up, but no more that 2 mins. It should be
-    # enough, even for 100 nodes
-    wait_time = 2 * settings['nodes']
-    if wait_time > 120:
-        wait_time = 120
+    wait_time = 10
     time.sleep(wait_time)
     info = fogify.info()
     container_id = []
