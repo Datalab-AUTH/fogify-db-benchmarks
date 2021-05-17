@@ -24,7 +24,8 @@ def check_containers(container_ip):
 
 time.sleep(5) # wait a bit before deploying again
 try:
-    fogify = FogifySDK("http://controller:5000", "fogify-setup.yaml")
+    fogify = FogifySDK("http://controller:5000",
+            "/home/jovyan/work/test-CPU-RAM-restrictions/fogify-setup.yaml")
     res = fogify.deploy()
     print(res)
     # allow for 2 sec/node to spin up, but no more that 2 mins. It should be
