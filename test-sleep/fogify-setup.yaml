@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  node:
+    image: test_sleep
+    cap_add:
+        - NET_ADMIN
+x-fogify:
+  networks:
+  - bidirectional:
+      bandwidth: 1000Mbps
+      latency:
+          delay: 1ms
+    name: mynet
+  nodes:
+  - capabilities:
+      memory: 1G
+      processor:
+        clock_speed: 1000
+        cores: 1
+    name: alpine-node
+  topology:
+  - label: node
+    networks:
+    - mynet
+    node: alpine-node
+    replicas: 1
+    service: node
+
